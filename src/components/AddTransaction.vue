@@ -1,14 +1,13 @@
 <template>
   <h3>Add new transaction</h3>
-  <form id="form" @sumbit.prevent="onSubmit">
+  <form id="form" @submit.prevent="onSubmit">
     <div class="form-control">
-      <label for="text">Text</label>
-      <input type="text" id="text" v-model="Text" placeholder="Enter text..." />
+      <label for="text">Deskripsi</label>
+      <input type="text" id="text" v-model="text" placeholder="Enter text..." />
     </div>
     <div class="form-control">
-      <label for="amount"
-        >Amount <br />
-        (negative - expense, positive - income)
+      <label for="amount">Jumlah uang <br />
+        <i style="font-size: 12px;" >Note: tambahkan tanda <span style="color: red;">minus (-)</span> di depan angka apabila expense</i>
       </label>
       <input type="text" id="amount" v-model="amount" placeholder="Enter amount..." />
     </div>
@@ -17,20 +16,19 @@
 </template>
 
 <script setup>
-
-import {ref} from 'vue';
-import {useToast} from 'vue-toastification';
+  import {ref} from 'vue';
+  import {useToast} from 'vue-toastification';
 
   const text = ref('');
   const amount = ref('');
 
-  const emit = defineEmits(['transactionSubmitted'])
+  const emit = defineEmits(['transactionSubmitted']);
 
   const toast = useToast();
 
   const onSubmit = () => {
     if(!text.value || !amount.value) {
-      toast.error('tidak boleh kosong');
+      toast.error('Tidak boleh dikosongkan');
       return;
     }
 
@@ -40,6 +38,7 @@ import {useToast} from 'vue-toastification';
     }
 
     emit('transactionSubmitted', transactionData);
+
     text.value = '';
     amount.value = '';
   };
